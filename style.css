@@ -1,0 +1,149 @@
+:root {
+    --blue: #5BC0EB;
+    --blue-hover: #8dddff;
+    --yellow: #FDE74C;
+    --yellow-hover: #fdff7a;
+    --green: #9BC53D;
+    --green-hover: #8ce857;
+    --red: #E55934;
+    --red-hover: #ff9191;
+    --pink: #FF729F;
+    --pink-hover: #ff92b8;
+    --grey: #9BABB8;
+    --grey-hover: #b6c9d8;
+    --tan: #DFD3C3;
+    --tan-hover: #f5e5d4;
+}
+
+@font-face {
+    font-family: "monospace";
+    src: url(https://fonts.google.com/specimen/Share+Tech+Mono?preview.text=123456789&preview.text_type=custom&category=Monospace);
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "monospace", monospace
+}
+
+
+/*Hover action*/
+.button:hover {
+    cursor: pointer;
+    background-color: var(--blue-hover);
+}
+#clear:hover {
+    background-color: var(--grey-hover);
+}
+#delete:hover {
+    background-color: var(--tan-hover);
+}
+#plus:hover {
+    background-color: var(--green-hover);
+}
+#minus:hover {
+    background-color: var(--red-hover);
+}
+#multiply:hover {
+    background-color: var(--yellow-hover);
+}
+#divide:hover {
+    background-color: var(--pink-hover);
+}
+/*Grid stuff*/
+.current-nums-box {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+    padding: 5px 100px 5px 10px;
+    min-height: 25px;
+    height: 4vw;
+    border: 2px black solid;
+    font-size: 20px;
+    grid-area: current;
+}
+
+#one {grid-area: one;}
+#two {grid-area: two;}
+#three {grid-area: three;}
+#four {grid-area: four;}
+#five {grid-area: five;}
+#six {grid-area: six;}
+#seven {grid-area: seven;}
+#eight {grid-area: eight;}
+#nine {grid-area: nine;}
+#zero {grid-area: zero;}
+
+#plus {
+    grid-area: plus;
+    background-color: var(--green);
+}
+#minus {
+    grid-area: minus;
+    background-color: var(--red);
+}
+#multiply {
+    grid-area: multiply;
+    background-color: var(--yellow);
+}
+#divide {
+    grid-area: divide;
+    background-color: var(--pink);
+}
+#equals {
+    grid-area: equals;
+}
+#clear {
+    grid-area: clear;
+    background-color: var(--grey);
+}
+#delete {
+    grid-area: delete;
+    background-color: var(--tan);
+}
+#negative {
+    grid-area: negative;
+}
+#dot {
+    grid-area: period;
+}
+
+.buttons-box {
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(5 , auto);
+    grid-template-rows: repeat(5, auto);
+    max-width: 35vw;
+    grid-template-areas:
+    "current current current current current"
+    "one two three clear delete"
+    "four five six plus minus"
+    "seven eight nine multiply divide"
+    "negative zero period . equals";
+    column-gap: 2vw;
+    row-gap: 5px;
+}
+
+.button {
+    background-color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    height: 5vw;
+    border: 2px black solid;
+}
