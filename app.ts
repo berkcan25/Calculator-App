@@ -1,5 +1,10 @@
 //to-do
 //numbers can be typed with keyboard
+//add exponent button
+//fix PEMDAS
+//Maybe add a priority queue that sorts the operations by priority
+//Add parentheses
+
 
 
 const numbers = document.getElementsByClassName("number")
@@ -157,13 +162,15 @@ function prevOperation(str: string) {
 
 dot?.addEventListener("click", () => {
     if (checkEndsWithOperation()) {
-        return;
+        const lastOperation = prevOperation(currentNumsBox.innerHTML)
+        currentNumsBox.innerHTML = currentNumsBox.innerHTML.substring(0,lastOperation) + "0.";
+    } else {
+        const numAndIndex = latestNum(currentNumsBox.innerHTML)
+        let lastNum = <string>numAndIndex[0]
+        let lastNumStart = <number>numAndIndex[1]
+        const dotIndex = hasDecimal(lastNum)
+        currentNumsBox.innerHTML = dotIndex === -1?currentNumsBox.innerHTML.substring(0,lastNumStart+lastNum.length) + ".":currentNumsBox.innerHTML.substring(0,lastNumStart+dotIndex)
     }
-    const numAndIndex = latestNum(currentNumsBox.innerHTML)
-    let lastNum = <string>numAndIndex[0]
-    let lastNumStart = <number>numAndIndex[1]
-    const dotIndex = hasDecimal(lastNum)
-    currentNumsBox.innerHTML = dotIndex === -1?currentNumsBox.innerHTML.substring(0,lastNumStart+lastNum.length) + ".":currentNumsBox.innerHTML.substring(0,lastNumStart+dotIndex)
 })
 
 function latestNum(str: string) {
