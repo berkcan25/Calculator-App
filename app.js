@@ -74,51 +74,39 @@ function checkEndsWithDot() {
     }
 }
 function calculate(str) {
-    //adding everything to sets
-    let lastNumStart = 0;
-    let lastNumEnd = 1;
-    let sum;
-    let nums = [];
-    let currOperations = new Map();
+    const operations = ['+', '−', '×', '/'];
+    let orderedOperations = new Map();
+    let sum = 0;
+    let tokens = [];
     let tempNum = "";
     for (let i = 0; i < str.length; i++) {
         const char = str[i];
         if (operations.includes(char)) {
-            currOperations.set(char, priority(char));
-            nums.push(tempNum);
+            tokens.push(tempNum);
+            tokens.push(char);
+            orderedOperations.set(char, priority(char));
             tempNum = "";
         }
         else {
             tempNum += char;
         }
-    }
-    const sortedCurrOperations = new Map([...currOperations.entries()].sort((a, b) => b[1] - a[1]));
-    nums.push(tempNum);
-    if (nums.length === 1) {
-        return nums[0];
-    }
-    console.log(sortedCurrOperations);
-    while (nums.length !== 0) {
-        let numStr = nums.shift();
-        let num = parseFloat(numStr ? numStr : "0");
-        let operation = sortedCurrOperations.keys().next().value;
-        sortedCurrOperations.delete(operation);
-        console.log(operation);
-        if (operation === undefined) {
-            return "0";
+        if (i === str.length - 1) {
+            tokens.push(tempNum);
         }
-        if (sum === undefined) {
-            sum = num;
-            numStr = nums.shift();
-            num = parseFloat(numStr ? numStr : "");
-            sum = executeCalc(sum, num, operation);
-        }
-        else {
-            sum = executeCalc(sum, num, operation);
-        }
-        console.log(sum);
     }
-    return sum ? sum.toString() : "0";
+    orderedOperations = new Map([...orderedOperations.entries()].sort((a, b) => b[1] - a[1]));
+    while (orderedOperations.size !== 0) {
+        let currOperation = orderedOperations.keys().next().value;
+        let operationIndex = tokens.indexOf(currOperation);
+        let num1Index = operationIndex - 1;
+        let num2Index = operationIndex + 1;
+        let num1 = parseFloat(tokens[num1Index]);
+        let num2 = parseFloat(tokens[num2Index]);
+        sum = executeCalc(num1, num2, currOperation);
+        tokens.splice(num1Index, 3, sum.toString());
+        orderedOperations.delete(currOperation);
+    }
+    return tokens[0];
 }
 function executeCalc(number1, number2, operation) {
     if (operation == "+") {
