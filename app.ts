@@ -5,7 +5,6 @@
 //cleanup code
 
 
-
 const numbers = document.getElementsByClassName("number")
 const operationButtons = document.getElementsByClassName("operation")
 const equals = document.getElementById("equals")
@@ -16,7 +15,15 @@ const currentNumsBox = document.getElementsByClassName("current-nums-box")[0]
 const negative = document.getElementById("negative")
 const operations = ["+", "−", "×", "/", "^"]
 const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+const historyBox = <HTMLElement>document.getElementsByClassName("history-box")[0]
+const buttonsBox = <HTMLElement>document.getElementsByClassName("buttons-box")[0]
+const pastCalculations = <HTMLElement>document.getElementsByClassName("past-calculations")[0]
 
+//temp solution
+historyBox.style.minWidth = buttonsBox.clientWidth + "px"
+historyBox.style.maxWidth = buttonsBox.clientWidth + "px"
+historyBox.style.minHeight = buttonsBox.clientHeight - 4 + "px"
+historyBox.style.maxHeight = buttonsBox.clientHeight - 4 + "px"
 
 
 for (let i = 0; i < numbers.length; i++) {
@@ -94,10 +101,26 @@ deleteButton?.addEventListener("click", () => {
 
 
 equals?.addEventListener("click", () => {
-    if (!checkEndsWithOperation() && !checkEndsWithDot()) {
+    if (!checkEndsWithOperation() && !checkEndsWithDot() && containsOperation()) {
+        const equation = currentNumsBox.innerHTML
         currentNumsBox.innerHTML = calculate(currentNumsBox.innerHTML)
+        const pastItem = document.createElement("li")
+        pastItem.innerHTML = equation + " = " + currentNumsBox.innerHTML
+        pastCalculations.appendChild(pastItem)
+        if (pastCalculations.children.length > 10) {
+            pastCalculations.removeChild(pastCalculations.children[0])
+        }
     }
 })
+
+function containsOperation() : Boolean {
+    for (let i = 0; i < operations.length; i++) {
+        if (currentNumsBox.innerHTML.includes(operations[i])) {
+            return true
+        }
+    }
+    return false
+}
 
 function checkEndsWithOperation() : Boolean {
     const currentNums = currentNumsBox.innerHTML;

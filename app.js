@@ -14,6 +14,14 @@ const currentNumsBox = document.getElementsByClassName("current-nums-box")[0];
 const negative = document.getElementById("negative");
 const operations = ["+", "−", "×", "/", "^"];
 const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const historyBox = document.getElementsByClassName("history-box")[0];
+const buttonsBox = document.getElementsByClassName("buttons-box")[0];
+const pastCalculations = document.getElementsByClassName("past-calculations")[0];
+//temp solution
+historyBox.style.minWidth = buttonsBox.clientWidth + "px";
+historyBox.style.maxWidth = buttonsBox.clientWidth + "px";
+historyBox.style.minHeight = buttonsBox.clientHeight - 4 + "px";
+historyBox.style.maxHeight = buttonsBox.clientHeight - 4 + "px";
 for (let i = 0; i < numbers.length; i++) {
     const number = numbers[i];
     number.addEventListener("click", () => {
@@ -94,10 +102,25 @@ deleteButton === null || deleteButton === void 0 ? void 0 : deleteButton.addEven
     }
 });
 equals === null || equals === void 0 ? void 0 : equals.addEventListener("click", () => {
-    if (!checkEndsWithOperation() && !checkEndsWithDot()) {
+    if (!checkEndsWithOperation() && !checkEndsWithDot() && containsOperation()) {
+        const equation = currentNumsBox.innerHTML;
         currentNumsBox.innerHTML = calculate(currentNumsBox.innerHTML);
+        const pastItem = document.createElement("li");
+        pastItem.innerHTML = equation + " = " + currentNumsBox.innerHTML;
+        pastCalculations.appendChild(pastItem);
+        if (pastCalculations.children.length > 10) {
+            pastCalculations.removeChild(pastCalculations.children[0]);
+        }
     }
 });
+function containsOperation() {
+    for (let i = 0; i < operations.length; i++) {
+        if (currentNumsBox.innerHTML.includes(operations[i])) {
+            return true;
+        }
+    }
+    return false;
+}
 function checkEndsWithOperation() {
     const currentNums = currentNumsBox.innerHTML;
     if (operations.includes(currentNums[currentNums.length - 1])) {
