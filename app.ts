@@ -1,8 +1,6 @@
 //to-do
 //numbers can be typed with keyboard
 //add exponent button
-//fix PEMDAS
-//Maybe add a priority queue that sorts the operations by priority
 //Add parentheses
 
 
@@ -86,26 +84,30 @@ function calculate(str: string) : string {
     let lastNumEnd = 1
     let sum
     let nums = []
-    let currOperations = []
+    let currOperations = new Map<string, number>()
     let tempNum = ""
     for (let i = 0; i < str.length; i++) {
         const char = str[i];
         if (operations.includes(char)) {
-            currOperations.push(char)
+            currOperations.set(char, priority(char))
             nums.push(tempNum)
             tempNum = ""
         } else {
             tempNum += char
         }
     }
+    const sortedCurrOperations = new Map([...currOperations.entries()].sort((a, b) => b[1] - a[1]))
     nums.push(tempNum)
     if (nums.length === 1) {
         return nums[0]
     }
+    console.log(sortedCurrOperations)
     while (nums.length !== 0) {
         let numStr = nums.shift()
-        let num = parseFloat(numStr?numStr:"0") 
-        let operation = currOperations.shift()
+        let num = parseFloat(numStr?numStr:"0")
+        let operation = sortedCurrOperations.keys().next().value
+        sortedCurrOperations.delete(operation)
+        console.log(operation)
         if (operation === undefined) {
             return "0"
         }
@@ -117,6 +119,7 @@ function calculate(str: string) : string {
         } else {
             sum = executeCalc(sum, num, operation)
         }
+        console.log(sum)
     }
     return sum?sum.toString():"0"
 }
@@ -132,6 +135,18 @@ function executeCalc(number1: number, number2: number, operation: string) {
         return number1 / number2
     } else {
         return number1
+    }
+}
+
+function priority(str:string) {
+    if (str === "+") {
+        return 1
+    } else if (str === "−") {
+        return  1
+    } else if (str === "×") {
+        return 2
+    } else {
+        return 2
     }
 }
 
