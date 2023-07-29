@@ -13,6 +13,8 @@
     --grey-hover: #b6c9d8;
     --tan: #DFD3C3;
     --tan-hover: #f5e5d4;
+    --orange: #ff9500;
+    --orange-hover: #ffb451;
 }
 
 @font-face {
@@ -61,6 +63,9 @@
 }
 #divide:hover {
     background-color: var(--pink-hover);
+}
+#power:hover {
+    background-color: var(--orange-hover);
 }
 /*Grid stuff*/
 .current-nums-box {
@@ -121,6 +126,10 @@
 #dot {
     grid-area: period;
 }
+#power {
+    grid-area: power;
+    background-color: var(--orange);
+}
 
 .buttons-box {
     background-color: white;
@@ -133,7 +142,7 @@
     "one two three clear delete"
     "four five six plus minus"
     "seven eight nine multiply divide"
-    "negative zero period . equals";
+    "negative zero period power equals";
     column-gap: 2vw;
     row-gap: 5px;
 }

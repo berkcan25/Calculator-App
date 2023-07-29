@@ -13,7 +13,7 @@ const deleteButton = document.getElementById("delete")
 const dot = document.getElementById("dot")
 const currentNumsBox = document.getElementsByClassName("current-nums-box")[0]
 const negative = document.getElementById("negative")
-const operations = ["+", "−", "×", "/"]
+const operations = ["+", "−", "×", "/", "^"]
 
 
 for (let i = 0; i < numbers.length; i++) {
@@ -79,7 +79,7 @@ function checkEndsWithDot() : Boolean {
 }
 
 function calculate(str: string) {
-    const operations = ['+', '−', '×', '/'];
+    const operations = ['+', '−', '×', '/', '^']
     let orderedOperations = new Map<string, number>()
     let sum = 0
     let tokens = []
@@ -123,6 +123,8 @@ function executeCalc(number1: number, number2: number, operation: string) {
         return number1 * number2
     } else if (operation == "/") {
         return number1 / number2
+    } else if (operation == "^") {
+        return Math.pow(number1, number2)
     } else {
         return number1
     }
@@ -135,8 +137,10 @@ function priority(str:string) {
         return  1
     } else if (str === "×") {
         return 2
-    } else {
+    } else if (str === "/") {
         return 2
+    } else {
+        return 3
     }
 }
 

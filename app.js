@@ -11,7 +11,7 @@ const deleteButton = document.getElementById("delete");
 const dot = document.getElementById("dot");
 const currentNumsBox = document.getElementsByClassName("current-nums-box")[0];
 const negative = document.getElementById("negative");
-const operations = ["+", "−", "×", "/"];
+const operations = ["+", "−", "×", "/", "^"];
 for (let i = 0; i < numbers.length; i++) {
     numbers[i].addEventListener("click", () => {
         if (currentNumsBox.innerHTML.length === 1 && currentNumsBox.innerHTML[0] === "0") {
@@ -74,7 +74,7 @@ function checkEndsWithDot() {
     }
 }
 function calculate(str) {
-    const operations = ['+', '−', '×', '/'];
+    const operations = ['+', '−', '×', '/', '^'];
     let orderedOperations = new Map();
     let sum = 0;
     let tokens = [];
@@ -121,6 +121,9 @@ function executeCalc(number1, number2, operation) {
     else if (operation == "/") {
         return number1 / number2;
     }
+    else if (operation == "^") {
+        return Math.pow(number1, number2);
+    }
     else {
         return number1;
     }
@@ -135,8 +138,11 @@ function priority(str) {
     else if (str === "×") {
         return 2;
     }
-    else {
+    else if (str === "/") {
         return 2;
+    }
+    else {
+        return 3;
     }
 }
 negative === null || negative === void 0 ? void 0 : negative.addEventListener("click", () => {
