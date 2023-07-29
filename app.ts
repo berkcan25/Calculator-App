@@ -1,8 +1,8 @@
 //to-do
 //negative can be added with keyboard
-//Add parentheses
-//add history
 //cleanup code
+//fix styling
+//make repsonsive
 
 
 const numbers = document.getElementsByClassName("number")
@@ -271,5 +271,3 @@ function hasDecimal(str: string) {
     let index = str.indexOf(".")
     return index
 }
-
-

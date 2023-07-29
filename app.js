@@ -1,9 +1,9 @@
 "use strict";
 //to-do
 //negative can be added with keyboard
-//Add parentheses
-//add history
 //cleanup code
+//fix styling
+//make repsonsive
 const numbers = document.getElementsByClassName("number");
 const operationButtons = document.getElementsByClassName("operation");
 const equals = document.getElementById("equals");
