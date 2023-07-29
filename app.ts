@@ -1,7 +1,8 @@
 //to-do
-//numbers can be typed with keyboard
-//add exponent button
+//negative can be added with keyboard
 //Add parentheses
+//add history
+//cleanup code
 
 
 
@@ -14,31 +15,69 @@ const dot = document.getElementById("dot")
 const currentNumsBox = document.getElementsByClassName("current-nums-box")[0]
 const negative = document.getElementById("negative")
 const operations = ["+", "−", "×", "/", "^"]
+const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
 
 
 for (let i = 0; i < numbers.length; i++) {
-    numbers[i].addEventListener("click", () => {
-        if (currentNumsBox.innerHTML.length === 1 && currentNumsBox.innerHTML[0] === "0") {
-            currentNumsBox.innerHTML = numbers[i].innerHTML
-        } else {
-            currentNumsBox.innerHTML += numbers[i].innerHTML
-        }
+    const number = numbers[i]
+    number.addEventListener("click", () => {
+        numberInput(i)
     })
 }
 
+window.addEventListener("keydown", (e) => {
+    const input = e.key
+    if (digits.includes(input)) {
+        numberInput(parseInt(e.key))
+    } else if (input === "Enter" || input === "Return" || input === "=") {
+        equals?.click();
+    } else if (input === "Backspace" || input === "Delete") {
+        deleteButton?.click()
+    } else if (input === "Escape" || input === "Esc" || input === "c" || input === "C") {
+        clear?.click()
+    } else if (input === "+") {
+        operationInput("+")
+    } else if (input === "-" || input === "−") {
+        operationInput("−")
+    } else if (input === "×" || input === "*" || input === "x") {
+        operationInput("×")
+    } else if (input === "/") {
+        operationInput("/")
+    } else if (input === "^") {
+        operationInput("^")
+    } else if (input === ".") {
+        dot?.click();
+    }
+})
+
+function numberInput(number : number) {
+    const num = number.toString()
+    if (currentNumsBox.innerHTML.length === 1 && currentNumsBox.innerHTML[0] === "0") {
+        currentNumsBox.innerHTML = num
+    } else {
+        currentNumsBox.innerHTML += num
+    }
+}
+
+
 for (let i = 0; i < operationButtons.length; i++) {
     operationButtons[i].addEventListener("click", () => {
-        const currentNumsLength = currentNumsBox.innerHTML.length
         const operation = operationButtons[i].innerHTML
-        if (checkEndsWithDot()) {return}
-        if (!checkEndsWithOperation()) {
-            currentNumsBox.innerHTML += operation
-        } else {
-            let newInnerHTML = currentNumsBox.innerHTML.substring(0, currentNumsLength - 1)
-            newInnerHTML += operation
-            currentNumsBox.innerHTML = newInnerHTML
-        }
+        operationInput(operation)
     })
+}
+
+function operationInput(operation : string) {
+    const currentNumsLength = currentNumsBox.innerHTML.length
+    if (checkEndsWithDot()) {return}
+    if (!checkEndsWithOperation()) {
+        currentNumsBox.innerHTML += operation
+    } else {
+        let newInnerHTML = currentNumsBox.innerHTML.substring(0, currentNumsLength - 1)
+        newInnerHTML += operation
+        currentNumsBox.innerHTML = newInnerHTML
+    }
 }
 
 clear?.addEventListener("click", () => {
@@ -79,7 +118,6 @@ function checkEndsWithDot() : Boolean {
 }
 
 function calculate(str: string) {
-    const operations = ['+', '−', '×', '/', '^']
     let orderedOperations = new Map<string, number>()
     let sum = 0
     let tokens = []
@@ -98,7 +136,6 @@ function calculate(str: string) {
             tokens.push(tempNum)
         }
     }
-
     orderedOperations = new Map([...orderedOperations.entries()].sort((a, b) => b[1] - a[1]))
     while (orderedOperations.size !== 0) {
         let currOperation = orderedOperations.keys().next().value
@@ -147,6 +184,12 @@ function priority(str:string) {
 negative?.addEventListener("click", () => {
     if (checkEndsWithOperation()) {
         return;
+    } else {
+        let index = prevOperation(currentNumsBox.innerHTML) + 1
+        let currNum = currentNumsBox.innerHTML.substring(index)
+        if (parseFloat(currNum) === 0) {
+            return
+        }
     }
     let lastNum = <string>latestNum(currentNumsBox.innerHTML)[0]
     let lastNumStart = <number>latestNum(currentNumsBox.innerHTML)[1]
