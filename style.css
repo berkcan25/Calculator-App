@@ -43,7 +43,7 @@
 .history-box {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: baseline;
     align-items: left;
     border: 2px black solid;
     margin-left: 20px;
@@ -52,6 +52,7 @@
 ul {
     list-style-type: none;
     padding: 5px;
+    margin-bottom: 0;
 }
 
 /*Hover action*/

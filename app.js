@@ -106,6 +106,7 @@ equals === null || equals === void 0 ? void 0 : equals.addEventListener("click",
         const equation = currentNumsBox.innerHTML;
         currentNumsBox.innerHTML = calculate(currentNumsBox.innerHTML);
         const pastItem = document.createElement("li");
+        pastItem.style.overflowWrap = "break-word";
         pastItem.innerHTML = equation + " = " + currentNumsBox.innerHTML;
         pastCalculations.appendChild(pastItem);
         if (pastCalculations.children.length > 10) {
